@@ -45,7 +45,9 @@ HAVING d.department_name in ('IT','Sales');
 ![](实验1-2.png)
 执行上面两个比较复杂的返回相同查询结果数据集的SQL语句，通过分析SQL语句各自的执行计划，判断哪个SQL语句是最优的。最后将你认为最优的SQL语句通过sqldeveloper的优化指导工具进行优化指导，看看该工具有没有给出优化建议
 
-我认为查询2的SQL语句时最优的。使用sqldeveloper的优化指导工具进行优化后给出的结果是：
+我认为查询2的SQL语句时最优的。
+对比查询一和查询二，我发现查询一在查询过程中，在每一次查询中都运行了一次d.department_name in ('IT','Sales')，这样的语句在查询过程中进行了多次，降低了查询的效率。而查询二则是先进行分组，最后只需执行一次HAVING d.department_name in ('IT','Sales')，大大提高了查询的效率。
+使用sqldeveloper的优化指导工具进行优化后给出的结果是：
 ![](实验1-3.png)
 
 ## 实验参考地址
