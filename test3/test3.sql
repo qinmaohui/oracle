@@ -1,24 +1,24 @@
 /*
-实验三脚本文件:
+实验三脚本文�?:
 首先创建自己的账号your_user，然后以system身份登录:
 
 [student@deep02 ~]$sqlplus system/123@localhost/pdborcl
-SQL>ALTER USER your_user QUOTA UNLIMITED ON USERS;
-SQL>ALTER USER your_user QUOTA UNLIMITED ON USERS02;
-SQL>ALTER USER your_user QUOTA UNLIMITED ON USERS03;
+SQL>ALTER USER QHM QUOTA UNLIMITED ON USERS;
+SQL>ALTER USER QHM QUOTA UNLIMITED ON USERS02;
+SQL>ALTER USER QHM QUOTA UNLIMITED ON USERS03;
 SQL>exit
 
-然后以自己的账号your_user身份登录,并运行脚本文件test3.sql:
+然后以自己的账号QHM身份登录,并运行脚本文件test3.sql:
 [student@deep02 ~]$cat test3.sql
-[student@deep02 ~]$sqlplus your_user/123@localhost/pdborcl
+[student@deep02 ~]$sqlplus QHM/123@localhost/pdborcl
 SQL>@test3.sql
 SQL>exit
 
-该脚本在你的账号下创建了两个分区表，orders（一万行数据），order_details（三万行数据）。
+该脚本在你的账号下创建了两个分区表，orders（一万行数据），order_details（三万行数据）�??
 
 
-参考：
-1. oracle分区技术-- interval parition实验及总结
+参�?�：
+1. oracle分区�?�?-- interval parition实验及�?�结
    http://blog.chinaunix.net/uid-23284114-id-3304525.html
 */
 
@@ -212,7 +212,7 @@ ALTER USER "TEACHER" QUOTA UNLIMITED ON USERS03;
     v_tel := '139888883' || i;
     insert /*+append*/ into ORDERS (ORDER_ID,CUSTOMER_NAME,CUSTOMER_TEL,ORDER_DATE,EMPLOYEE_ID,DISCOUNT)
       values (v_order_id,v_name,v_tel,dt,V_EMPLOYEE_ID,dbms_random.value(100,0));
-    --插入订单y一个订单包括3个产品
+    --插入订单y�?个订单包�?3个产�?
     v:=dbms_random.value(10000,4000);
     v_name:='computer'|| (i mod 3 + 1);
     insert /*+append*/ into ORDER_DETAILS(ID,ORDER_ID,PRODUCT_NAME,PRODUCT_NUM,PRODUCT_PRICE)
@@ -228,7 +228,7 @@ ALTER USER "TEACHER" QUOTA UNLIMITED ON USERS03;
     v_order_detail_id:=v_order_detail_id+1;
     insert /*+append*/ into ORDER_DETAILS(ID,ORDER_ID,PRODUCT_NAME,PRODUCT_NUM,PRODUCT_PRICE)
       values (v_order_detail_id,v_order_id,v_name,1,v);
-    --在触发器关闭的情况下，需要手工计算每个订单的应收金额：
+    --在触发器关闭的情况下，需要手工计算每个订单的应收金额�?
     select sum(PRODUCT_NUM*PRODUCT_PRICE) into m from ORDER_DETAILS where ORDER_ID=v_order_id;
     if m is null then
      m:=0;
@@ -243,14 +243,14 @@ end;
 select count(*) from orders;
 select count(*) from order_details;
 
---以system用户运行：
-set autotrace on
-
-select * from your_user.orders where order_date
-between to_date('2017-1-1','yyyy-mm-dd') and to_date('2018-6-1','yyyy-mm-dd');
-
-select a.ORDER_ID,a.CUSTOMER_NAME,
-b.product_name,b.product_num,b.product_price
-from your_user.orders a,your_user.order_details b where
-a.ORDER_ID=b.order_id and
-a.order_date between to_date('2017-1-1','yyyy-mm-dd') and to_date('2018-6-1','yyyy-mm-dd');
+--以system用户运行�?
+--set autotrace on
+--
+--select * from QHM.orders where order_date
+--between to_date('2017-1-1','yyyy-mm-dd') and to_date('2018-6-1','yyyy-mm-dd');
+--
+--select a.ORDER_ID,a.CUSTOMER_NAME,
+--b.product_name,b.product_num,b.product_price
+--from QHM.orders a,QHM.order_details b where
+--a.ORDER_ID=b.order_id and
+--a.order_date between to_date('2017-1-1','yyyy-mm-dd') and to_date('2018-6-1','yyyy-mm-dd');
