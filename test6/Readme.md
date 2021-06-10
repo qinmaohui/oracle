@@ -25,7 +25,7 @@
 
 ## 2.系统总体结构
 
-![系统总体结构](E:\Documents\Study\Oracle\oracle\test6\系统总体架构.png)
+![系统总体结构](系统总体架构.png)
 
 ## 3.表设计
 
